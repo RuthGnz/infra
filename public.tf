@@ -5,6 +5,8 @@ resource "aws_instance" "proxy" {
     instance_type = "t2.micro"
     key_name="${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.public.id}"]
+    subnet_id = "${aws_subnet.public.id}"
+
     private_ip="${var.proxy_ip}"
     tags {
       Name = "Proxy"
@@ -14,7 +16,7 @@ resource "aws_instance" "proxy" {
 
 resource "aws_security_group" "public" {
   name        = "public rules"
-
+  vpc_id ="aws_vpc.tf_pruebas.id"
   ingress {
     from_port   = 80
     to_port     = 80

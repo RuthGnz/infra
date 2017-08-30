@@ -6,6 +6,7 @@ resource "aws_instance" "gitlab" {
     instance_type = "t2.micro"
     key_name="${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.private.id}"]
+    subnet_id = "${aws_subnet.private.id}"
 
     tags {
       Name = "gitlab"
@@ -19,6 +20,7 @@ resource "aws_instance" "jenkins" {
     instance_type = "t2.micro"
     key_name="${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.private.id}"]
+    subnet_id = "${aws_subnet.private.id}"
 
     tags {
       Name = "jenkins"
@@ -27,6 +29,7 @@ resource "aws_instance" "jenkins" {
 
 resource "aws_security_group" "private" {
   name        = "private"
+  vpc_id ="aws_vpc.tf_pruebas.id"
 
    ingress {
     from_port   = 80
