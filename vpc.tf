@@ -17,88 +17,78 @@ resource "aws_internet_gateway" "tf_pruebas_gateway" {
 
 /*
   SUBNETS
-
 */
 
 
+/*
+  Public Subnet
+*/
+
 resource "aws_subnet" "public" {
   vpc_id     = "${aws_vpc.tf_pruebas.id}"
-  cidr_block = "${public_subnet_cidr}"
+  cidr_block = "${var.public_subnet_cidr}"
+  map_public_ip_on_launch = "true"
+
   tags {
     Name = "public"
   }
 }
 
+
+resource "aws_route_table" "route-public" {
+    vpc_id = "${aws_vpc.tf_pruebas.id}"
+
+    route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = "${aws_internet_gateway.tf_pruebas_gateway.id}"
+    }
+
+    tags {
+        Name = "Public Subnet"
+    }
+}
+
+
+resource "aws_route_table_association" "route-public-association" {
+    subnet_id = "${aws_subnet.public.id}"
+    route_table_id = "${aws_route_table.route-public.id}"
+}
+
+
+
+
+/*
+  Private Subnet
+*/
+
+
 resource "aws_subnet" "private" {
   vpc_id     = "${aws_vpc.tf_pruebas.id}"
-  cidr_block = "${private_subnet_cidr}"
+  cidr_block = "${var.private_subnet_cidr}"
+  map_public_ip_on_launch = "false"
 
   tags {
     Name = "private"
   }
 }
 
-/*
+resource "aws_route_table" "route-private" {
+    vpc_id = "${aws_vpc.tf_pruebas.id}"
 
-  SECURITY GROUPS
+    route {
+        cidr_block = "0.0.0.0/0"
+        instance_id = "${aws_instance.proxy.id}"
+    }
 
-*/
-resource "aws_security_group" "allow_all" {
-  name        = "allow_all"
-  description = "Allow all inbound traffic"
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
+    tags {
+        Name = "Private Subnet"
+    }
 }
 
 
-
-resource "aws_security_group" "allow_all" {
-  name        = "allow_all"
-  description = "Allow all inbound traffic"
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
+resource "aws_route_table_association" "route-private-association" {
+    subnet_id = "${aws_subnet.private.id}"
+    route_table_id = "${aws_route_table.route-private.id}"
 }
 
 
-/*
-  INSTANCES
-
-*/

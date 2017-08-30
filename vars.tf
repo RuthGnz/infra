@@ -3,10 +3,18 @@
 # Configure the AWS Provider
 variable "ACCESS_KEY" {}
 variable "SECRET_KEY" {}
-variable "instance_tag" {}
+
+#Instance
+variable "key_name" {
+	description="key name for access the instance"
+	default="rgonzalez-aws"
+}
 
 #Network
-
+variable "proxy_ip"{
+	description="Proxy IP"
+	default="10.0.1.2"
+}
 variable "vpc_cidr" {
     description = "CIDR for the whole VPC"
     default = "10.0.0.0/16"
