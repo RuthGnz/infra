@@ -16,7 +16,7 @@ resource "aws_instance" "proxy" {
 
 resource "aws_security_group" "public" {
   name        = "public rules"
-  vpc_id ="aws_vpc.tf_pruebas.id"
+  vpc_id ="${aws_vpc.tf_pruebas.id}"
   ingress {
     from_port   = 80
     to_port     = 80

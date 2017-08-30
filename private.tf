@@ -29,7 +29,7 @@ resource "aws_instance" "jenkins" {
 
 resource "aws_security_group" "private" {
   name        = "private"
-  vpc_id ="aws_vpc.tf_pruebas.id"
+  vpc_id ="${aws_vpc.tf_pruebas.id}"
 
    ingress {
     from_port   = 80
