@@ -7,7 +7,6 @@ resource "aws_instance" "proxy" {
     vpc_security_group_ids = ["${aws_security_group.public.id}"]
     subnet_id = "${aws_subnet.public.id}"
 
-    private_ip="${var.proxy_ip}"
     tags {
       Name = "Proxy"
     }

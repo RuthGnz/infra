@@ -10,11 +10,7 @@ variable "key_name" {
 	default="rgonzalez-aws"
 }
 
-#Network
-variable "proxy_ip"{
-	description="Proxy IP"
-	default="10.0.0.2"
-}
+
 variable "vpc_cidr" {
     description = "CIDR for the whole VPC"
     default = "10.0.0.0/16"
