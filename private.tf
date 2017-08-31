@@ -37,6 +37,12 @@ resource "aws_security_group" "private" {
     protocol    = "tcp"
     cidr_blocks = ["${aws_instance.proxy.private_ip}/32"]
   }
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["${aws_instance.proxy.private_ip}/32"]
+  }
 
   ingress {
     from_port   = 22

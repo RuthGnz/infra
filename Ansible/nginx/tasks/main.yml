@@ -1,0 +1,18 @@
+---
+# tasks file for roles
+- name: Install nginx
+  command: docker pull nginx
+
+- name: create folder
+    file:
+      path: ConfigProxy
+      state: directory
+
+- name: Copy nginx config files
+  - copy:
+      src: ./templates/default.conf
+      dest: ./ConfigProxy
+
+- name: Ensure nginx is running
+  command: docker run -p 80:80 -v ./ConfigProxy:/etc/nginx/conf.d/ -d nginx
+ 
