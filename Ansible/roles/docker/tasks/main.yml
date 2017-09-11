@@ -1,7 +1,7 @@
 ---
 # tasks file for roles
 
-- name: update cache
+  - name: update cache
     command: apt-get update
 
   - name: ensure repository key is installed

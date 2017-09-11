@@ -6,7 +6,7 @@ server {
     #access_log  /var/log/nginx/host.access.log  main;
 
     location / {
-      proxy_pass {{gitlabIp}};
+      proxy_pass http://{{gitlabIp}};
     }
 
     #error_page  404              /404.html;
@@ -28,7 +28,7 @@ server {
     #access_log  /var/log/nginx/host.access.log  main;
 
     location / {
-      proxy_pass {{jenkinsIp}};
+      proxy_pass http://{{jenkinsIp}};
     }
 
     #error_page  404              /404.html;

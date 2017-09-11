@@ -1,0 +1,19 @@
+---
+# tasks file for roles
+- name: Install nginx
+  command: docker pull nginx
+
+- name: create folder
+  file:
+    path: ConfigProxy
+    state: directory
+
+- template:
+    src: ./templates/default.conf.j2
+    dest: ./ConfigProxy/default.conf
+
+
+- name: Ensure nginx is running
+  command: docker run -p 80:80 -p 8080:8080 -v /home/ubuntu/ConfigProxy:/etc/nginx/conf.d -d nginx
+  #command: docker run -p 80:80 -p 8080:8080 -d nginx
+
