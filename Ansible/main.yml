@@ -1,11 +1,11 @@
-- name: dependency provisioning
-  hosts: all
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: install python2
-      raw: sudo apt-get -y install python-simplejson
+#- name: dependency provisioning
+#  hosts: jenkins
+#  become: yes
+#  become_method: sudo
+#  gather_facts: false
+#  tasks:
+#    - name: install python2
+#      raw: sudo apt-get -y install python-simplejson
 
 
 - name: Install nginx
@@ -14,4 +14,11 @@
   become_method: sudo
   roles:
     - role: nginx
+    
+#- name: Install jenkins
+#  hosts: jenkins
+#  become: yes
+#  become_method: sudo
+#  roles:
+#    - role: jenkins
     

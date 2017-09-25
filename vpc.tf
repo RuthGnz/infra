@@ -78,7 +78,7 @@ resource "aws_route_table" "route-private" {
 
     route {
         cidr_block = "0.0.0.0/0"
-        instance_id = "${aws_instance.proxy.id}"
+        instance_id = "${aws_instance.nat.id}"
     }
 
     tags {

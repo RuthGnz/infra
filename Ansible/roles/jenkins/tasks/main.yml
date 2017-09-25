@@ -1,26 +1,25 @@
 ---
 # tasks file for roles
+- name: create folder
+  file:
+    path: DockerFile
+    state: directory
+
+- service: name=docker state=restarted
+- copy:
+    src: ./templates/Dockerfile
+    dest: ./DockerFile/
+
+- name: Install requirements
+  command: pip install docker-py
 
 - name: create folder
-    file:
-      path: DockerFile
-      state: directory
+  file:
+    path: jenkins
+    state: directory
 
-  - service: name=docker state=restarted
-  - copy:
-      src: ./templates/Dockerfile
-      dest: ./DockerFile/
+- name: Build an image
+  command: docker build ./DockerFile -t jenkins_docker
 
-  - name: Install requirements
-    command: pip install docker-py
-
-  - name: create folder
-    file:
-      path: jenkins
-      state: directory
-
-  - name: Build an image
-    command: docker build ./DockerFile -t jenkins_docker
-
-  - name: run jenkins_docker container
-    command: docker run  -d -p 8080:8080 -p 50000:50000 -v $HOME/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker jenkins_docker
+- name: run jenkins_docker container
+  command: docker run  -d -p 8080:8080 -p 50000:50000 -v $HOME/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker jenkins_docker
